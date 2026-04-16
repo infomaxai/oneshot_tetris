@@ -1,0 +1,712 @@
+:root {
+  color-scheme: light;
+  font-family: "Public Sans Variable", "Segoe UI", sans-serif;
+  --paper: oklch(0.97 0.01 88);
+  --paper-shadow: oklch(0.9 0.02 75);
+  --ink: oklch(0.19 0.03 40);
+  --ink-soft: oklch(0.4 0.04 45);
+  --outline: oklch(0.78 0.05 65 / 0.7);
+  --accent: oklch(0.67 0.19 35);
+  --accent-dark: oklch(0.45 0.14 30);
+  --accent-cool: oklch(0.57 0.12 220);
+  --piece-i: oklch(0.73 0.14 215);
+  --piece-o: oklch(0.84 0.15 95);
+  --piece-t: oklch(0.7 0.19 330);
+  --piece-s: oklch(0.8 0.17 150);
+  --piece-z: oklch(0.65 0.2 23);
+  --piece-j: oklch(0.59 0.17 250);
+  --piece-l: oklch(0.75 0.17 55);
+  --piece-i-contrast: oklch(0.48 0.16 225);
+  --piece-o-contrast: oklch(0.56 0.18 95);
+  --piece-t-contrast: oklch(0.47 0.2 330);
+  --piece-s-contrast: oklch(0.5 0.18 150);
+  --piece-z-contrast: oklch(0.45 0.21 25);
+  --piece-j-contrast: oklch(0.41 0.17 250);
+  --piece-l-contrast: oklch(0.52 0.19 55);
+  --piece-i-colorblind: oklch(0.68 0.12 230);
+  --piece-o-colorblind: oklch(0.78 0.15 100);
+  --piece-t-colorblind: oklch(0.57 0.1 300);
+  --piece-s-colorblind: oklch(0.76 0.13 165);
+  --piece-z-colorblind: oklch(0.61 0.12 25);
+  --piece-j-colorblind: oklch(0.45 0.12 255);
+  --piece-l-colorblind: oklch(0.72 0.15 70);
+  --gutter: clamp(1rem, 2vw, 2rem);
+  --panel-pad: clamp(0.9rem, 1.8vw, 1.4rem);
+  --cell-size: clamp(1rem, 3.2vw, 1.75rem);
+  --transition: 220ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, oklch(0.89 0.06 60 / 0.9), transparent 35%),
+    radial-gradient(circle at bottom left, oklch(0.86 0.09 25 / 0.5), transparent 35%),
+    linear-gradient(180deg, oklch(0.98 0.012 93), var(--paper) 55%, oklch(0.93 0.02 82));
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: clamp(1rem, 2.4vw, 2rem);
+}
+
+.noise-layer {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(transparent 0 98%, oklch(0.45 0.02 20 / 0.06) 98% 100%),
+    linear-gradient(90deg, transparent 0 98%, oklch(0.45 0.02 20 / 0.05) 98% 100%);
+  background-size: 100% 10px, 10px 100%;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.masthead,
+.hero-grid,
+.tutorial-panel,
+.settings-sheet {
+  position: relative;
+  z-index: 1;
+}
+
+.masthead {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(14rem, 1fr);
+  gap: 1rem;
+  align-items: end;
+  border-bottom: 1px solid var(--outline);
+  padding-bottom: 1rem;
+}
+
+.eyebrow,
+.section-kicker,
+.overlay-kicker {
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow,
+.section-kicker {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  font-size: clamp(3.8rem, 11vw, 8rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.masthead p {
+  margin: 0.35rem 0 0;
+  max-width: 42rem;
+  color: var(--ink-soft);
+}
+
+.masthead-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(14rem, 0.9fr) minmax(18rem, 1.35fr) minmax(16rem, 0.95fr);
+  gap: clamp(1rem, 2vw, 1.8rem);
+  margin-top: clamp(1rem, 2.2vw, 2rem);
+  align-items: start;
+}
+
+.hero-copy,
+.history-panel {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.hero-copy-block,
+.side-panel,
+.shortcut-panel,
+.settings-block,
+.tutorial-panel,
+.settings-sheet,
+.history-panel,
+.board-frame {
+  background: color-mix(in oklab, var(--paper) 92%, white 8%);
+  box-shadow:
+    0 0.35rem 0 var(--paper-shadow),
+    0 0 0 1px var(--outline);
+}
+
+.hero-copy-block,
+.shortcut-panel,
+.history-panel,
+.settings-block {
+  padding: var(--panel-pad);
+}
+
+.plain-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.board-stage {
+  display: grid;
+  gap: 1rem;
+}
+
+.board-frame {
+  display: grid;
+  grid-template-columns: minmax(7rem, 9.5rem) minmax(0, 1fr) minmax(7rem, 9.5rem);
+  gap: clamp(0.8rem, 1.4vw, 1.2rem);
+  padding: var(--panel-pad);
+  align-items: stretch;
+}
+
+.board-side {
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+.board-column {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.board-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.board-title-row h2,
+.settings-sheet h2,
+.tutorial-header h2 {
+  margin: 0;
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  text-transform: uppercase;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--outline);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  background: color-mix(in oklab, white 72%, var(--paper) 28%);
+}
+
+.status-playing {
+  color: var(--accent-dark);
+}
+
+.status-paused,
+.status-idle,
+.status-game_over {
+  color: var(--ink-soft);
+}
+
+.ghost-label {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.board-surface {
+  position: relative;
+  background:
+    linear-gradient(180deg, oklch(0.19 0.03 40), oklch(0.23 0.03 37)),
+    linear-gradient(90deg, transparent 0 95%, oklch(1 0 0 / 0.05) 95% 100%);
+  box-shadow:
+    inset 0 0 0 1px oklch(0.9 0.03 98 / 0.18),
+    inset 0 -1.5rem 2rem oklch(0.01 0 0 / 0.22);
+  padding: clamp(0.5rem, 0.8vw, 0.85rem);
+  overflow: hidden;
+}
+
+.playfield-grid {
+  display: grid;
+  grid-template-columns: repeat(10, var(--cell-size));
+  grid-template-rows: repeat(20, var(--cell-size));
+  gap: 2px;
+  justify-content: center;
+}
+
+.playfield-cell,
+.mini-grid-cell {
+  display: block;
+  border-radius: 0.18rem;
+}
+
+.playfield-cell {
+  background:
+    linear-gradient(180deg, oklch(0.34 0.02 255 / 0.28), oklch(0.2 0.02 260 / 0.08)),
+    oklch(0.26 0.02 250 / 0.48);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.03);
+}
+
+.playfield-cell.is-filled {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--cell-color) 82%, white 18%), var(--cell-color)),
+    var(--cell-color);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.32),
+    inset 0 -2px 0 oklch(0 0 0 / 0.25),
+    0 0 0 1px oklch(0 0 0 / 0.16);
+}
+
+.playfield-cell.is-ghost {
+  background:
+    linear-gradient(180deg, transparent, transparent),
+    color-mix(in oklab, var(--cell-color) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--cell-color) 55%, white 45%);
+}
+
+.playfield-cell.is-active {
+  filter: saturate(1.1);
+}
+
+.board-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: end start;
+  gap: 0.75rem;
+  padding: clamp(1rem, 3vw, 2rem);
+  background:
+    linear-gradient(180deg, oklch(0.14 0.02 25 / 0.12), oklch(0.08 0.02 25 / 0.84));
+  color: oklch(0.95 0.01 95);
+}
+
+.board-overlay h3 {
+  margin: 0;
+  max-width: 18rem;
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.board-overlay p {
+  margin: 0;
+  max-width: 22rem;
+  color: oklch(0.88 0.03 88);
+}
+
+.overlay-actions,
+.tutorial-actions,
+.choice-row,
+.masthead-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.solid-button,
+.ghost-button,
+.choice-button,
+.control-button {
+  border: 1px solid transparent;
+  transition:
+    transform var(--transition),
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.solid-button,
+.ghost-button,
+.choice-button {
+  padding: 0.7rem 1rem;
+}
+
+.solid-button {
+  background: var(--accent);
+  color: oklch(0.97 0.02 90);
+}
+
+.ghost-button,
+.choice-button {
+  background: color-mix(in oklab, white 72%, var(--paper) 28%);
+  border-color: var(--outline);
+  color: var(--ink);
+}
+
+.ghost-button:hover,
+.solid-button:hover,
+.choice-button:hover,
+.control-button:hover {
+  transform: translateY(-1px);
+}
+
+.choice-button.is-selected,
+.ghost-button.is-arming {
+  background: color-mix(in oklab, var(--accent) 18%, white 82%);
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--outline) 50%);
+}
+
+.preview-block {
+  display: grid;
+  gap: 2px;
+  margin-top: 0.75rem;
+}
+
+.mini-grid-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2px;
+}
+
+.mini-grid-cell {
+  min-width: 1rem;
+  aspect-ratio: 1;
+  background: color-mix(in oklab, var(--paper-shadow) 30%, transparent);
+}
+
+.mini-grid-cell.is-filled {
+  background: var(--cell-color);
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.25);
+}
+
+.queue-stack {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.scoreboard-panel,
+.history-panel {
+  gap: 0.75rem;
+}
+
+.metric-line {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.metric-line strong {
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1;
+}
+
+.metric-line span,
+.history-header p,
+.keymap-header p {
+  color: var(--ink-soft);
+}
+
+.mobile-controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mobile-controls[data-preset="split"] {
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.mobile-controls[data-preset="cluster"] {
+  grid-template-columns: 1fr;
+}
+
+.mobile-controls[data-preset="compact"] {
+  grid-template-columns: 1fr;
+}
+
+.mobile-cluster {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.movement-cluster {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.action-cluster {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.mobile-controls[data-preset="compact"] .action-cluster {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.control-button {
+  min-height: 4rem;
+  padding: 0.8rem;
+  background: color-mix(in oklab, var(--paper) 90%, white 10%);
+  border-color: var(--outline);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.18rem;
+  touch-action: manipulation;
+}
+
+.control-button small {
+  color: var(--ink-soft);
+}
+
+.history-panel {
+  padding: var(--panel-pad);
+}
+
+.history-list {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(4, auto);
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--outline) 60%, transparent);
+  font-size: 0.92rem;
+}
+
+.history-list strong {
+  font-family: "Oswald Variable", "Arial Narrow", sans-serif;
+  font-size: 1.3rem;
+}
+
+.history-empty {
+  color: var(--ink-soft);
+}
+
+.settings-sheet {
+  position: fixed;
+  top: clamp(1rem, 2vw, 1.6rem);
+  right: clamp(1rem, 2vw, 1.6rem);
+  width: min(34rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: var(--panel-pad);
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(calc(100% + 1.5rem));
+  transition: transform 280ms ease;
+}
+
+.settings-sheet.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+.settings-sheet-header,
+.tutorial-header,
+.history-header,
+.keymap-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.settings-row-grid {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.65rem;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 3.25rem;
+  height: 1.9rem;
+  padding: 0.2rem;
+  border: 1px solid var(--outline);
+  background: color-mix(in oklab, white 78%, var(--paper) 22%);
+}
+
+.toggle-switch span {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  background: var(--ink);
+  transform: translateX(0);
+  transition: transform var(--transition);
+}
+
+.toggle-switch.is-on span {
+  transform: translateX(1.2rem);
+  background: var(--accent);
+}
+
+.keymap-section {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.keymap-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.keymap-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--outline) 60%, transparent);
+}
+
+.tutorial-panel {
+  position: fixed;
+  left: clamp(1rem, 2vw, 1.6rem);
+  bottom: clamp(1rem, 2vw, 1.6rem);
+  width: min(34rem, calc(100vw - 2rem));
+  padding: var(--panel-pad);
+}
+
+.tutorial-steps {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+html[data-contrast="high"] {
+  --outline: oklch(0.52 0.01 70);
+  --ink: oklch(0.12 0.02 40);
+  --ink-soft: oklch(0.24 0.03 42);
+}
+
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+  animation: none !important;
+  transition-duration: 0ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (max-width: 1120px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .board-stage {
+    order: 1;
+  }
+
+  .hero-copy {
+    order: 2;
+  }
+
+  .history-panel {
+    order: 3;
+  }
+}
+
+@media (max-width: 900px) {
+  .masthead {
+    grid-template-columns: 1fr;
+  }
+
+  .board-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .board-column {
+    order: 1;
+  }
+
+  .board-side-left {
+    order: 2;
+  }
+
+  .board-side-right {
+    order: 3;
+  }
+
+  .board-side-left,
+  .board-side-right {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-sheet,
+  .tutorial-panel {
+    width: calc(100vw - 2rem);
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --cell-size: clamp(1.05rem, 7vw, 1.35rem);
+  }
+
+  .app-shell {
+    padding-bottom: 8rem;
+  }
+
+  .board-title-row {
+    flex-wrap: wrap;
+  }
+
+  .board-side-left,
+  .board-side-right {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-controls[data-preset="split"] {
+    grid-template-columns: 1fr;
+  }
+
+  .action-cluster {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .history-list li {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
